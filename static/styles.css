@@ -1,0 +1,35 @@
+body {
+  padding-top: 50px;
+  height: 100vh;
+}
+
+.sidebar {
+  border-right: 2px solid red;
+}
+
+.title-comp {
+  white-space: nowrap;
+}
+
+.nav-item {
+  border-bottom: 1px solid #e6dede;
+  width: 100%;
+  text-align: left;
+}
+
+.active-item {
+  border-bottom: 1px solid #f14f4f;
+}
+
+.exchange-box {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 550px;
+  padding-bottom: 20px;
+}
+.exchange-box iframe {
+  position: absolute;
+  top: -360px;
+  z-index: -2;
+}
