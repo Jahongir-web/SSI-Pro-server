@@ -9,7 +9,8 @@ const cors = require("cors");
 // Routes
 const authRoute = require("./src/routes/authRoute");
 const homeRoute = require("./src/routes/homeRoute");
-const categoryCtrl = require("./src/routes/categoryRoute");
+const categoryRoute = require("./src/routes/categoryRoute");
+const subCategoryRoute = require("./src/routes/subCategoryRoute");
 
 const app = express();
 
@@ -31,7 +32,8 @@ app.use(express.static("static"))
 // usage of routes
 app.use("/", authRoute)
 app.use("/", homeRoute)
-app.use("/category", categoryCtrl)
+app.use("/category", categoryRoute)
+app.use("/subcategory", subCategoryRoute)
 
 
 app.get("/login", (req, res) => {

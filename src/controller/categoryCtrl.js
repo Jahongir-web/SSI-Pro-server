@@ -1,14 +1,25 @@
 const bcrypt = require("bcrypt");
+const { default: mongoose } = require("mongoose");
 const Category = require("../model/categoryModel");
+const SubCategory = require("../model/subCategoryModel");
 
 const categoryCtrl = {
 
   getCategories: async (req, res) => {
     if(req.session.user_role === "001") {
       try {
-        const categories = await Category.find()
+        const categories = await Category.aggregate([
+          { $lookup:
+            {
+              from: "subcategories",
+              localField: "_id",
+              foreignField: "categoryId",
+              as: "subCategories"
+            }
+          }
+        ])
         res.render("category.html", {categories})
-
+  
       } catch (error) {
         res.status(500).send({message: error.message})
       }
@@ -77,8 +88,6 @@ const categoryCtrl = {
       res.status(401).send({message: "Not Allowed!"})
     }
   },
-
-  
 
 }
 

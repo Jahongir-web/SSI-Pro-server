@@ -19,6 +19,7 @@ body {
 
 .active-item {
   border-bottom: 1px solid #f14f4f;
+  background-color: #f5e6e6;
 }
 
 .exchange-box {
