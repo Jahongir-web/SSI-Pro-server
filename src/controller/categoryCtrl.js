@@ -10,7 +10,7 @@ const categoryCtrl = {
         res.render("category.html", {categories})
 
       } catch (error) {
-        
+        res.status(500).send({message: error.message})
       }
     } else {
       return res.redirect("/login")
@@ -20,8 +20,8 @@ const categoryCtrl = {
   // add Category
   addCategory: async (req, res) => {
     const {title} = req.body
-    if(req.session.user_role === "001") {
-      try {
+    try {
+      if(req.session.user_role === "001") {
         const category = await Category.findOne({title})
         if(category) {        
           return res.status(400).send({message: `${title} category already exists!`})
@@ -29,36 +29,56 @@ const categoryCtrl = {
         const newCategory = new Category(req.body)
         await newCategory.save()  
         return res.status(201).send({message: "Category added successfully"})
+      } else {
+        res.status(401).send({message: "Not Allowed!"})
+      }
+    } catch (error) {
+      res.status(500).send({message: error.message})
+    }
+  },
+
+  // Delete Category
+
+  deleteCategory: async (req, res) => {
+    if(req.session.user_role === "001") {
+      try {
+        const {categoryId} = req.params
+        const category = await Category.findByIdAndDelete(categoryId)
+        if(category) {
+          return res.status(200).send({message: "Category deleted successfully"})
+        } else {
+          return res.status(404).send({message: "Category not found!"})
+        }
       } catch (error) {
         res.status(500).send({message: error.message})
       }
     } else {
-      return res.redirect("/login")
+      res.status(401).send({message: "Not Allowed!"})
     }
   },
 
-  // Register new User
-  registerUser: async (req, res) => {
-    const {username, password, role} = req.body
-    if(!username || !password || !role) {
-      return res.status(400).json({message: "please fill all fields"})
-    }
-    try {
-      const oldUser = await User.findOne({username})
-      if(oldUser) {
-        return res.status(400).json({message: "User already exists!"})
+  // DUpdate Category
+
+  updateCategory: async (req, res) => {
+    if(req.session.user_role === "001") {
+      try {
+        const {categoryId} = req.params
+        const {title} = req.body
+        const category = await Category.findByIdAndUpdate(categoryId, {title})
+        if(category) {
+          return res.status(200).send({message: "Category updated successfully"})
+        } else {
+          return res.status(404).send({message: "Category not found!"})
+        }
+      } catch (error) {
+        res.status(500).send({message: error.message})
       }
-      const heshPassword = await bcrypt.hash(password, 10)
-      req.body.password = heshPassword
-
-      const newUser = new User(req.body)
-      await newUser.save()      
-      
-      res.status(201).json({message: "signup successfully"})
-    } catch (error) {
-      res.status(500).json({message: error.message})
+    } else {
+      res.status(401).send({message: "Not Allowed!"})
     }
   },
+
+  
 
 }
 
