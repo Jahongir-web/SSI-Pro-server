@@ -3,6 +3,19 @@ body {
   height: 100vh;
 }
 
+.login-form {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: hsla(0, 43%, 93%, 0.514);
+  padding: 30px;
+}
+
+.message-server {
+  text-align: center;
+  height: 18px;
+  line-height: 18px;
+}
+
 .sidebar {
   border-right: 2px solid red;
 }

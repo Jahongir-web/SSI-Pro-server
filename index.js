@@ -11,6 +11,7 @@ const authRoute = require("./src/routes/authRoute");
 const homeRoute = require("./src/routes/homeRoute");
 const categoryRoute = require("./src/routes/categoryRoute");
 const subCategoryRoute = require("./src/routes/subCategoryRoute");
+const productRoute = require("./src/routes/productRoute");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/", authRoute)
 app.use("/", homeRoute)
 app.use("/category", categoryRoute)
 app.use("/subcategory", subCategoryRoute)
+app.use("/product", productRoute)
 
 
 app.get("/login", (req, res) => {

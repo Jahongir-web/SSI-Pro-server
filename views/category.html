@@ -39,7 +39,7 @@
                   <a class="nav-link fw-bold title-comp" aria-current="page" href="/category"><i class="fa-solid fa-folder-open me-2"></i> Categories</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link fw-bold" aria-current="page" href="#"><i class="fa-sharp fa-solid fa-cart-arrow-down me-2"></i> Products</a>
+                  <a class="nav-link fw-bold" aria-current="page" href="/product"><i class="fa-sharp fa-solid fa-cart-arrow-down me-2"></i> Products</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link fw-bold" aria-current="page" href="#"><i class="fa-brands fa-youtube me-2"></i> Videos</a>
@@ -63,7 +63,8 @@
       <div class="col-12 col-md-9">
         <h1 class="bg-light p-2 mx-2">Dashboard SSI-Pro</h1>
         <div class="rounded-3 bg-info d-flex gap-3 p-3 justify-content-around flex-wrap">
-          <h5 class="text-white text-center">Asosiy Categoriyalar: 12</h5>
+          <h5 class="text-white text-center">Asosiy Categoriyalar: <%= categoryLength %></h5>
+          <h5 class="text-white text-center">Subcategoriyalar: <%= subcategoryLength %></h5>
         </div>
         <div class="row mt-2">
           <div class="col-12 ">

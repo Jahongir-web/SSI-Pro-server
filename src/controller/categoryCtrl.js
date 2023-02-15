@@ -1,5 +1,3 @@
-const bcrypt = require("bcrypt");
-const { default: mongoose } = require("mongoose");
 const Category = require("../model/categoryModel");
 const SubCategory = require("../model/subCategoryModel");
 
@@ -18,7 +16,14 @@ const categoryCtrl = {
             }
           }
         ])
-        res.render("category.html", {categories})
+
+        let categoryLength = categories.length
+        let subcategoryLength = 0;
+        categories.forEach(cat=> {
+          subcategoryLength = subcategoryLength + cat.subCategories.length
+        })
+
+        res.render("category.html", {categories, categoryLength, subcategoryLength})
   
       } catch (error) {
         res.status(500).send({message: error.message})
@@ -55,6 +60,7 @@ const categoryCtrl = {
       try {
         const {categoryId} = req.params
         const category = await Category.findByIdAndDelete(categoryId)
+        await SubCategory.deleteMany({categoryId})
         if(category) {
           return res.status(200).send({message: "Category deleted successfully"})
         } else {
@@ -68,7 +74,7 @@ const categoryCtrl = {
     }
   },
 
-  // DUpdate Category
+  // Update Category
 
   updateCategory: async (req, res) => {
     if(req.session.user_role === "001") {
