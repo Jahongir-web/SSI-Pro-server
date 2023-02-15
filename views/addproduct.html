@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+  <title>Product</title>
+
+</head>
+<body>
+  <header>
+    <div class="container position-relative">
+      <a class="btn position-absolute" href="/product" class="link"><i class="fa-solid fa-arrow-left"></i> Back</a>
+      <h1 class="text-center h2 mb-3">Product Item</h1>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+
+      <form action="">
+        <div class="d-flex gap-2 mb-2 align-items-center">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>Category</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+
+          <select class="form-select" aria-label="Default select example">
+            <option selected>Sub Category</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+          
+        </div>
+        <div class="d-flex gap-2 mb-2">
+          <input type="text" class="form-control" name="title" placeholder="Enter product name">
+          <input class="form-control image-input" name="image" type="file" id="formFile">
+          <!-- <div class="mb-3">
+            <label for="formFile" class="form-label">Upload Image</label>
+          </div> -->
+        </div>
+        <div class="d-flex gap-2 mb-2">
+          <input type="text" class="form-control" name="oldPrice" placeholder="Old Price">
+          <input type="text" class="form-control" name="price" placeholder="Price">
+        </div>
+        <textarea name="desc" id="desc" cols="30" rows="10"></textarea>
+
+        <button class="btn btn-success btn-save my-3 px-5" type="submit">Save</button>
+      </form>
+
+
+    </div>
+  </main>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.tiny.cloud/1/u4l8mcuk2j12ldmg3ags60ndu96nglyfyzl2bfe7gtq4oc8j/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+  <script>
+    tinymce.init({
+      selector: "textarea",
+      toolbar_mode: 'sliding',
+      plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+      toolbar: 'undo redo | blocks fontfamily fontsize forecolor backcolor | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    })
+
+
+    let btnSave = document.querySelector('.btn-save')
+    
+    btnSave.addEventListener('click', ()=> {
+      let myContent = tinymce.get("desc").getContent();
+      console.log(myContent);
+    })
+  </script>
+</body>
+</html>

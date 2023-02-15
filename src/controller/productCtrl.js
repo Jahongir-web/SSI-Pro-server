@@ -3,7 +3,7 @@ const SubCategory = require("../model/subCategoryModel");
 
 const productCtrl = {
 
-  getCategories: async (req, res) => {
+  getProducts: async (req, res) => {
     if(req.session.user_role === "001") {
       try {
         const categories = await Category.aggregate([
@@ -28,6 +28,14 @@ const productCtrl = {
       } catch (error) {
         res.status(500).send({message: error.message})
       }
+    } else {
+      return res.redirect("/login")
+    }
+  },
+
+  addProductPage: async (req, res) => {
+    if(req.session.user_role === "001") {
+      res.render("addproduct.html")  
     } else {
       return res.redirect("/login")
     }
