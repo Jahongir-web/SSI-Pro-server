@@ -283,12 +283,12 @@
                 <div class="card-footer p-2 pt-0 border-top-0 bg-transparent">
                   <div class="d-flex justify-content-around align-items-center flex-wrap">
                     <div class="form-check form-switch">
-                      <input ${product.isPromotion ? "checked" : ""} onchange="aksiyaProduct('${product._id}', '${!product.isPromotion}')" class="form-check-input" type="checkbox" id="aksiya-check">
-                      <label class="form-check-label" for="aksiya-check">aкция</label>
+                      <input ${product.isPromotion ? "checked" : ""} onchange="aksiyaProduct('${product._id}', '${!product.isPromotion}')" class="form-check-input" type="checkbox" id='${product._id}'>
+                      <label class="form-check-label" for='${product._id}'>aкция</label>
                     </div>
                     <div class="form-check form-switch">
-                      <input ${product.isPublished ? "checked" : ""} onchange="publishedProduct('${product._id}', '${!product.isPublished}')" class="form-check-input" type="checkbox" id="show-check">
-                      <label class="form-check-label" for="show-check">актив</label>
+                      <input ${product.isPublished ? "checked" : ""} onchange="publishedProduct('${product._id}', '${!product.isPublished}')" class="form-check-input" type="checkbox" id='show${product._id}'>
+                      <label class="form-check-label" for='show${product._id}'>актив</label>
                     </div>
                   </div>
                   <div class="d-flex justify-content-center mt-2 gap-3">
@@ -312,14 +312,17 @@
     getProducts()
 
     let deleteProduct = async(id) => {
-      try {
-        let res = await fetch(`/product/${id}`, {method: 'DELETE', headers: {'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
-        }} )
-  
-        let json = await res.json()    
-        getProducts()
-      } catch (error) {
-        console.log(error.message);        
+      let confirmDel = confirm("Deleted data cannot be recovered!")
+      if(confirmDel) {
+        try {
+          let res = await fetch(`/product/${id}`, {method: 'DELETE', headers: {'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
+          }} )
+    
+          let json = await res.json()    
+          getProducts()
+        } catch (error) {
+          console.log(error.message);        
+        }
       }
     }
 
