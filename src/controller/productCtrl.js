@@ -47,6 +47,16 @@ const productCtrl = {
     }
   },
 
+  getForClientProducts: async (req, res) => {
+    try {
+      const products = await Product.find()
+
+      res.status(200).send(products)
+    } catch (error) {
+      res.status(500).send({message: error.message})
+    }
+  },
+
   addProductPage: async (req, res) => {
     if(req.session.user_role === "001") {
       res.render("addproduct.html")  
@@ -89,18 +99,26 @@ const productCtrl = {
     }
   },
 
-  // Delete Category
+  // Delete Product
 
-  deleteCategory: async (req, res) => {
+  deleteProduct: async (req, res) => {
     if(req.session.user_role === "001") {
       try {
-        const {categoryId} = req.params
-        const category = await Category.findByIdAndDelete(categoryId)
-        await SubCategory.deleteMany({categoryId})
-        if(category) {
-          return res.status(200).send({message: "Category deleted successfully"})
+        const {productId} = req.params
+        const product = await Product.findByIdAndDelete(productId)
+
+        if(product.image.public_id) {
+          await cloudinary.v2.uploader.destroy(product.image.public_id, (err, result) => {
+            if(err) {
+              console.log(err);
+            }
+          })
+        }
+        
+        if(product) {
+          return res.status(200).send({message: "Product deleted successfully"})
         } else {
-          return res.status(404).send({message: "Category not found!"})
+          return res.status(404).send({message: "Product not found!"})
         }
       } catch (error) {
         res.status(500).send({message: error.message})
@@ -110,18 +128,40 @@ const productCtrl = {
     }
   },
 
-  // Update Category
+  // Update Product promotion
 
-  updateCategory: async (req, res) => {
+  updateProductPromotion: async (req, res) => {
     if(req.session.user_role === "001") {
       try {
-        const {categoryId} = req.params
-        const {title} = req.body
-        const category = await Category.findByIdAndUpdate(categoryId, {title})
-        if(category) {
-          return res.status(200).send({message: "Category updated successfully"})
+        const {productId} = req.params
+        const {status} = req.body
+
+        const product = await Product.findByIdAndUpdate(productId, {isPromotion: status})
+        if(product) {
+          return res.status(200).send({message: "Product updated successfully"})
         } else {
-          return res.status(404).send({message: "Category not found!"})
+          return res.status(404).send({message: "Product not found!"})
+        }
+      } catch (error) {
+        res.status(500).send({message: error.message})
+      }
+    } else {
+      res.status(401).send({message: "Not Allowed!"})
+    }
+  },
+
+  // Update Product published
+
+  updateProductPublished: async (req, res) => {
+    if(req.session.user_role === "001") {
+      try {
+        const {productId} = req.params
+        const {status} = req.body
+        const product = await Product.findByIdAndUpdate(productId, {isPublished: status})
+        if(product) {
+          return res.status(200).send({message: "Product updated successfully"})
+        } else {
+          return res.status(404).send({message: "Product not found!"})
         }
       } catch (error) {
         res.status(500).send({message: error.message})

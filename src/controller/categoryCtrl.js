@@ -108,12 +108,6 @@ const categoryCtrl = {
         }
       ])
 
-      let categoryLength = categories.length
-      let subcategoryLength = 0;
-      categories.forEach(cat=> {
-        subcategoryLength = subcategoryLength + cat.subCategories.length
-      })
-
       res.status(200).send(categories)
 
     } catch (error) {
