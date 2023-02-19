@@ -95,6 +95,32 @@ const categoryCtrl = {
     }
   },
 
+  getForClientCategories: async (req, res) => {
+    try {
+      const categories = await Category.aggregate([
+        { $lookup:
+          {
+            from: "subcategories",
+            localField: "_id",
+            foreignField: "categoryId",
+            as: "subCategories"
+          }
+        }
+      ])
+
+      let categoryLength = categories.length
+      let subcategoryLength = 0;
+      categories.forEach(cat=> {
+        subcategoryLength = subcategoryLength + cat.subCategories.length
+      })
+
+      res.status(200).send(categories)
+
+    } catch (error) {
+      res.status(500).send({message: error.message})
+    }
+  },
+
 }
 
 module.exports = categoryCtrl

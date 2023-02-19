@@ -1,5 +1,19 @@
+const cloudinary = require("cloudinary");
+const dotenv = require("dotenv");
+const fs = require('fs');
+
 const Category = require("../model/categoryModel");
 const SubCategory = require("../model/subCategoryModel");
+const Product = require("../model/productModel");
+
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET
+})
+
 
 const productCtrl = {
 
@@ -41,18 +55,32 @@ const productCtrl = {
     }
   },
 
-  // add Category
-  addCategory: async (req, res) => {
-    const {title} = req.body
+  // add Product
+  addProduct: async (req, res) => {
     try {
       if(req.session.user_role === "001") {
-        const category = await Category.findOne({title})
-        if(category) {        
-          return res.status(400).send({message: `${title} category already exists!`})
+        const file = req.files.image
+        // console.log(file);
+
+        if(file.size > 20 * 1024 * 1024) {
+          return res.status(401).json({message: "image's size large 20mb"})
         }
-        const newCategory = new Category(req.body)
-        await newCategory.save()  
-        return res.status(201).send({message: "Category added successfully"})
+
+        if(file.mimetype !== "image/png" && file.mimetype !== "image/jpeg") {
+          return res.status(401).json({message: "image format wrong!"})
+        }
+        
+        await cloudinary.v2.uploader.upload(file.tempFilePath, {folder: "SSI Pro"}, async(err, result)=>{
+          if(err){
+            console.log(err);
+          }
+          removeTemp(file.tempFilePath)
+          req.body.image = {public_id: result.public_id, url: result.secure_url}
+        })
+
+        const newProduct = new Product(req.body)
+        await newProduct.save()  
+        return res.status(201).send({message: "Product added successfully"})
       } else {
         res.status(401).send({message: "Not Allowed!"})
       }
@@ -104,5 +132,13 @@ const productCtrl = {
   },
 
 }
+
+
+function removeTemp(path) {
+  fs.unlink(path, (err)=>{
+    if(err) throw err;
+  })
+}
+
 
 module.exports = productCtrl

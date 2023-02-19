@@ -24,37 +24,28 @@
   <main>
     <div class="container">
 
-      <form action="">
+      <form class="product-form">
         <div class="d-flex gap-2 mb-2 align-items-center">
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Category</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <select class="form-select category" aria-label="Default select example" required>
+            <option selected>Category*</option>
           </select>
 
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Sub Category</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <select class="form-select sub-category" name="subCategory" aria-label="Default select example" required>
+            <option selected>Sub Category*</option>
           </select>
           
         </div>
         <div class="d-flex gap-2 mb-2">
-          <input type="text" class="form-control" name="title" placeholder="Enter product name">
-          <input class="form-control image-input" name="image" type="file" id="formFile">
-          <!-- <div class="mb-3">
-            <label for="formFile" class="form-label">Upload Image</label>
-          </div> -->
+          <input type="text" class="form-control name-input" name="title" placeholder="Enter product name*" required>
+          <input class="form-control image-input" name="image" type="file" id="formFile" required>
         </div>
         <div class="d-flex gap-2 mb-2">
-          <input type="text" class="form-control" name="oldPrice" placeholder="Old Price">
-          <input type="text" class="form-control" name="price" placeholder="Price">
+          <input type="text" class="form-control old-price-input" name="oldPrice" placeholder="Old Price">
+          <input type="text" class="form-control price-input" name="price" placeholder="Price">
         </div>
         <textarea name="desc" id="desc" cols="30" rows="10"></textarea>
 
-        <button class="btn btn-success btn-save my-3 px-5" type="submit">Save</button>
+        <button class="btn btn-info btn-save my-3 px-5" type="submit">Save</button>
       </form>
 
 
@@ -78,11 +69,80 @@
 
 
     let btnSave = document.querySelector('.btn-save')
-    
-    btnSave.addEventListener('click', ()=> {
-      let myContent = tinymce.get("desc").getContent();
-      console.log(myContent);
+    let productForm = document.querySelector('.product-form');
+    let categorySelect = document.querySelector('.category');
+    let subCategorySelect = document.querySelector('.sub-category');
+    let nameInput = document.querySelector('.name-input');
+    let imageInput = document.querySelector('.image-input');
+    let oldPriceInput = document.querySelector('.old-price-input');
+    let priceInput = document.querySelector('.price-input');
+
+    let categories = []
+
+    let getCategories = async()=> {
+      try {
+        let res = await fetch(`/category/api`, {method: 'GET', headers: {'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
+        }} )
+        
+        categories = await res.json()  
+        
+        categories.forEach(category => {
+          let option = document.createElement('option')
+          option.setAttribute('value', category.title)
+          option.textContent = category.title
+          categorySelect.appendChild(option)
+        })
+      } catch (error) {
+        console.log(error.message);        
+      }
+    }
+
+    getCategories()
+
+    categorySelect.addEventListener('change', (e)=> {
+      let subCategories = categories.find(category => category.title === e.target.value).subCategories
+
+      subCategorySelect.innerHTML = '<option selected>Sub Category</option>';
+      subCategories.forEach(category => {
+        let option = document.createElement('option')
+        option.setAttribute('value', category._id)
+        option.textContent = category.title
+        subCategorySelect.appendChild(option)
+      })
     })
+
+    
+    let addProduct = async (e) => {
+      e.preventDefault();
+      if(nameInput.value == "" || imageInput.value == '' || subCategorySelect.value == 'Sub Category*') {
+        alert("Zarur qatorlarni to'ldiring!")
+        return
+      }
+      
+      console.log(subCategorySelect.value);
+      btnSave.textContent = "Loading..."
+      
+      let data = new FormData(productForm)
+
+      let desc = tinymce.get("desc").getContent({ format: "html" })
+
+      data.append('desc', desc)
+      
+      try {
+        let res = await fetch(`/product/add`, {method: 'POST', body: data} )
+        
+        let json = await res.json()  
+        
+        alert(json.message);
+        btnSave.textContent = "Save"
+        return window.location.replace("/product")
+      } catch (error) {
+        console.log(error.message);        
+      }
+    }
+  
+    productForm.addEventListener('submit', addProduct)
+
   </script>
 </body>
 </html>

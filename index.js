@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 4001;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(fileUpload());
+app.use(fileUpload({useTempFiles: true}))
 app.use(session({secret: process.env.MY_SESSION_KEY}))
 app.use(express.static("static"))
 
