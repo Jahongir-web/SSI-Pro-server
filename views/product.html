@@ -25,81 +25,8 @@
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <ul class="list-unstyled list-group list-group-flush ps-0">
-        <li class="mb-1">
-          <button
-            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse"
-            data-bs-target="#category1"
-            aria-expanded="false"
-          >
-            Тепловое оборудование
-          </button>
-          <div class="collapse" id="category1">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li class="border-bottom my-1">
-                <a
-                  href="categories/Тепловое.html#subcat0010"
-                  class="link-dark d-inline-flex text-decoration-none rounded"
-                  >Пароконвектоматы</a
-                >
-              </li>
-              <li class="border-bottom my-1">
-                <a
-                  href="categories/Тепловое.html#subcat0008"
-                  class="link-dark d-inline-flex text-decoration-none rounded"
-                  >Конвекционные печи</a
-                >
-              </li>
-              <li class="border-bottom my-1">
-                <a
-                  href="categories/Тепловое.html#subcat0015"
-                  class="link-dark d-inline-flex text-decoration-none rounded"
-                  >Расстоечные шкафы</a
-                >
-              </li>                  
-            </ul>
-          </div>
-        </li>
-        <li class="mb-1">
-          <button
-            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse"
-            data-bs-target="#category2"
-            aria-expanded="false"
-          >
-            Тепловое оборудование
-          </button>
-          <div class="collapse" id="category2">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li>
-                <a
-                  href="categories/Тепловое.html#subcat0010"
-                  class="link-dark d-inline-flex text-decoration-none rounded"
-                  >Пароконвектоматы</a
-                >
-              </li>
-              <li class="border-top my-1"></li>
-              <li>
-                <a
-                  href="categories/Тепловое.html#subcat0008"
-                  class="link-dark d-inline-flex text-decoration-none rounded"
-                  >Конвекционные печи</a
-                >
-              </li>
-              <li class="border-top my-1"></li>
-              <li>
-                <a
-                  href="categories/Тепловое.html#subcat0015"
-                  class="link-dark d-inline-flex text-decoration-none rounded"
-                  >Расстоечные шкафы</a
-                >
-              </li>
-              <li class="border-top my-1"></li>
-              
-            </ul>
-          </div>
-        </li>       
+      <ul class="list-unstyled list-group list-group-flush ps-0 category-list">
+        
       </ul>
     </div>
   </div>
@@ -127,7 +54,7 @@
                   <a class="nav-link fw-bold title-comp" aria-current="page" href="/product"><i class="fa-sharp fa-solid fa-cart-arrow-down me-2"></i> Products</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link fw-bold title-comp" aria-current="page" href="#"><i class="fa-brands fa-youtube me-2"></i> Videos</a>
+                  <a class="nav-link fw-bold title-comp" aria-current="page" href="/videos"><i class="fa-brands fa-youtube me-2"></i> Videos</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link fw-bold title-comp" aria-current="page" href="/logout"><i class="fa-solid fa-right-from-bracket  me-2"></i> Log Out</a>
@@ -155,64 +82,8 @@
         <div class="row">
           <section class="py-5 bg-color">
             <div class="container px-4 px-lg-5">
-              <div
-                class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center product-list"
-              >
-                <img class="d-block mx-auto" src="./assets/Loading.gif" alt="loader">
-
-                <!-- <div class="col mb-5">
-                  <div class="card h-100">
-                    
-                    <div
-                      class="badge bg-danger text-white position-absolute"
-                      style="top: 0.5rem; right: 0.5rem"
-                    >
-                      Акция
-                    </div>
-
-                    <img
-                      class="card-img-top"
-                      src="assets/main/sales/Гриль мангал Vesta ARGENTINA.jpg"
-                      alt="..."
-                    />
-                    
-                    <div class="card-body p-2">
-                      <div class="text-center">
-                        
-                        <h5 class="fw-bolder">Гриль мангал Vesta Argentina</h5>
-                        
-                        <div class="form-check form-switch d-flex justify-content-around">
-                          <input class="form-check-input" type="checkbox" id="price-check">
-                          
-                          <p>
-                            <span class="text-muted text-decoration-line-through me-3">$20.00</span>
-                            $18.00
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div class="card-footer p-2 pt-0 border-top-0 bg-transparent">
-                      <div class="d-flex justify-content-around align-items-center flex-wrap">
-                        <div class="form-check form-switch">
-                          <input class="form-check-input" type="checkbox" id="aksiya-check">
-                          <label class="form-check-label" for="aksiya-check">aкция</label>
-                        </div>
-                        <div class="form-check form-switch">
-                          <input class="form-check-input" type="checkbox" id="show-check">
-                          <label class="form-check-label" for="show-check">актив</label>
-                        </div>
-                      </div>
-                      <div class="d-flex justify-content-center mt-2 gap-3">
-                        <a href="#" class="btn btn-outline-info"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <button class="btn btn-outline-danger"><i class="text-dark fa-solid fa-trash text-danger"></i></button>
-                      </div>
-                    </div>
-                    
-                  </div>
-                </div> -->
-                
-  
+              <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center product-list">
+                <img class="d-block mx-auto" src="./assets/Loading.gif" alt="loader"> 
               </div>
             </div>
           </section>
@@ -228,6 +99,7 @@
     let productList = document.querySelector('.product-list');
     let countProduct = document.querySelector('.count-product');
     let searchInput = document.querySelector('.search-input');
+    let categoryList = document.querySelector('.category-list');
 
     let products = []
 
@@ -259,7 +131,7 @@
                     <h5 class="fw-bolder">${product.title}</h5>
                     
                     <!-- Product price-->
-                    <p>
+                    <p class="mb-0">
                       <span class="text-muted text-decoration-line-through me-3">${product.oldPrice}</span>
                       ${product.price}
                     </p>
@@ -306,12 +178,67 @@
 
     getProducts()
 
+    let getCategories = async()=> {
+      try {
+        let res = await fetch(`/category/api`, {method: 'GET', headers: {'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
+        }} )
+        
+        categories = await res.json()  
+        console.log(categories);
+        
+        let content = '';
+
+        categories.forEach(category => {
+          let sbContent = '';
+
+          
+          category.subCategories.forEach(sbCat => {
+            sbContent = sbContent + `
+              <li class="border-bottom my-1" onclick="getProductByCategory('${sbCat._id}')">
+                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded w-75">
+                  ${sbCat.title}
+                </a>
+              </li>
+            `
+          })
+
+          content = content + `
+            <li class="mb-1">
+              <button
+                class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#a${category._id}"
+                aria-expanded="false"
+              >
+                ${category.title}
+              </button>
+              <div class="collapse" id="a${category._id}">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">                  
+                  ${sbContent}           
+                </ul>
+              </div>
+            </li>
+          `
+        })
+
+        categoryList.innerHTML = content;
+      } catch (error) {
+        console.log(error.message);        
+      }
+    }
+    getCategories()
+
+    let getProductByCategory = (id) => {
+      let filteredProduct = products.filter(prod => prod.subCategory == id)
+      display(filteredProduct)
+    }
+
     searchInput.addEventListener('keyup', (e)=> {
       const key = new RegExp(searchInput.value, "i");
 
       let filteredProducts = products.filter(prod => prod.title.match(key))
 
-      display(filteredProducts)
+      display(filteredProducts.reverse())
     })
 
     let deleteProduct = async(id) => {
