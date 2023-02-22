@@ -30,14 +30,14 @@
             <option selected>Category*</option>
           </select>
 
-          <select class="form-select sub-category" name="subCategory" aria-label="Default select example" required>
+          <select class="form-select sub-category" name="subCategory" aria-label="Default select example">
             <option selected>Sub Category*</option>
           </select>
           
         </div>
         <div class="d-flex gap-2 mb-2">
           <input type="text" class="form-control name-input" name="title" placeholder="Enter product name*" required>
-          <input class="form-control image-input" name="image" type="file" id="formFile" required>
+          <input class="form-control image-input" name="image" type="file" id="formFile">
         </div>
         <div class="d-flex gap-2 mb-2">
           <input type="text" class="form-control old-price-input" name="oldPrice" placeholder="Old Price">
@@ -111,37 +111,87 @@
       })
     })
 
-    
-    let addProduct = async (e) => {
-      e.preventDefault();
-      if(nameInput.value == "" || imageInput.value == '' || subCategorySelect.value == 'Sub Category*') {
-        alert("Zarur qatorlarni to'ldiring!")
-        return
-      }
-      
-      console.log(subCategorySelect.value);
-      btnSave.textContent = "Loading..."
-      
-      let data = new FormData(productForm)
+    let productId = window.location.href.split('/').reverse()[0]
 
-      let desc = tinymce.get("desc").getContent({ format: "html" })
+    if(productId !== 'new') {
+      let getProduct = async()=> {
+        try {
+          let res = await fetch(`/product/api/${productId}`, {method: 'GET'} )
+          
+          product = await res.json() 
+          console.log(product);
+          
+          nameInput.value = product.title
+          oldPriceInput.value = product.oldPrice
+          priceInput.value = product.price
+          subCategorySelect.value = product.subCategory
 
-      data.append('desc', desc)
+          setTimeout(()=> {
+            tinymce.get("desc").setContent(product.desc);
+
+          }, 2000)
+
+          let updateProduct = async(e) => {
+            e.preventDefault();
+            btnSave.textContent = "Loading..."
       
-      try {
-        let res = await fetch(`/product/add`, {method: 'POST', body: data} )
+            let data = new FormData(productForm)
+
+            let desc = tinymce.get("desc").getContent()
+
+            data.append('desc', desc)
+      
+            try {
+              let res = await fetch(`/product/${productId}`, {method: 'PUT', body: data})
         
-        let json = await res.json()  
-        
-        alert(json.message);
-        btnSave.textContent = "Save"
-        return window.location.replace("/product")
-      } catch (error) {
-        console.log(error.message);        
+              let json = await res.json() 
+              alert(json.message);
+              btnSave.textContent = "Save"
+              return window.location.replace("/product")
+            } catch (error) {
+              console.log(error.message);        
+            }
+          }
+
+          productForm.addEventListener('submit', updateProduct)
+
+        } catch (error) {
+          console.log(error.message);        
+        }
       }
-    }
+
+      getProduct()      
+    } else {
+      let addProduct = async (e) => {
+        e.preventDefault();
+        if(nameInput.value == "" || imageInput.value == '' || subCategorySelect.value == 'Sub Category*') {
+          alert("Zarur qatorlarni to'ldiring!")
+          return
+        }
+        
+        btnSave.textContent = "Loading..."
+        
+        let data = new FormData(productForm)
   
-    productForm.addEventListener('submit', addProduct)
+        let desc = tinymce.get("desc").getContent({ format: "html" })
+  
+        data.append('desc', desc)
+        
+        try {
+          let res = await fetch(`/product/add`, {method: 'POST', body: data} )
+          
+          let json = await res.json()  
+          
+          alert(json.message);
+          btnSave.textContent = "Save"
+          return window.location.replace("/product")
+        } catch (error) {
+          console.log(error.message);        
+        }
+      }
+    
+      productForm.addEventListener('submit', addProduct)
+    }
 
   </script>
 </body>

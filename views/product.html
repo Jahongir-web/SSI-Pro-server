@@ -161,9 +161,9 @@
           >
             Kатегории
           </button>
-          <h6 class="text-white text-center">Все: 150</h6> 
-          <input style="max-width: 200px;" class="form-control" type="search" placeholder="Search...">
-          <a href="/product/add" class="btn btn-success add-product-link">+Add</a>
+          <h6 class="text-white text-center count-product">Все: ...</h6> 
+          <input style="max-width: 200px;" class="form-control search-input" type="search" placeholder="Search...">
+          <a href="/product/add/new" class="btn btn-success add-product-link">+Add</a>
         </div>
         <div class="row">
           <section class="py-5 bg-color">
@@ -239,16 +239,15 @@
 
   <script>
     let productList = document.querySelector('.product-list');
+    let countProduct = document.querySelector('.count-product');
+    let searchInput = document.querySelector('.search-input');
 
-    let getProducts = async()=> {
-      try {
-        let res = await fetch(`/product/api`, {method: 'GET'} )
-        
-        products = await res.json() 
-        console.log(products);
-        
-        let content = ''
-        products.reverse().forEach(product => {
+    let products = []
+
+    let display = (arr) => {      
+      countProduct.textContent = `Все: ${arr.length}`
+      let content = ''
+        arr.reverse().forEach(product => {
           content = content + `
             <div class="col mb-5">
               <div class="card h-100">
@@ -300,9 +299,18 @@
               </div>
             </div>
           `
-        })
+        }
+      )
 
-        productList.innerHTML = content;
+      productList.innerHTML = content;
+    }
+
+    let getProducts = async()=> {
+      try {
+        let res = await fetch(`/product/api`, {method: 'GET'} )
+        
+        products = await res.json()         
+        display(products)
 
       } catch (error) {
         console.log(error.message);        
@@ -310,6 +318,14 @@
     }
 
     getProducts()
+
+    searchInput.addEventListener('keyup', (e)=> {
+      const key = new RegExp(searchInput.value, "i");
+
+      let filteredProducts = products.filter(prod => prod.title.match(key))
+
+      display(filteredProducts)
+    })
 
     let deleteProduct = async(id) => {
       let confirmDel = confirm("Deleted data cannot be recovered!")
