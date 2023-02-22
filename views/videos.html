@@ -50,32 +50,119 @@
                 </ul>
               </div>
             </div>
-          </nav>
-  
-        </div>
-        
+          </nav>  
+        </div>        
       </div>
     </div>
   </header>
 
   <main>
-    <div class="row">
-      <section class="py-5 bg-color">
-        <div class="container px-4 px-lg-5">
-          <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center video-list">
-            <img class="d-block mx-auto" src="./assets/Loading.gif" alt="loader"> 
-          </div>
-        </div>
-      </section>
+    <div class="container">
+      <div class="rounded-3 bg-info d-flex gap-3 py-1 px-3 justify-content-between gap-2 gap-md-3 align-items-center">
+        <h6 class="text-white text-center count-product">Все: 12</h6> 
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">+Add</button>
+      </div>
+      <div class="video-list d-flex flex-wrap gap-2 justify-content-lg-between justify-content-center pt-3">
+        <img class="d-block mx-auto" src="./assets/Loading.gif" alt="loader">               
+                        
+      </div>
     </div>
-
   </main>
     
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Video</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="form-control" method="post" action="/videos" id="video-form">
+            <input class="form-control my-3" type="text" name="title" placeholder="Enter video's title" required>
+            <textarea class="form-control mb-3" name="content" id="" cols="30" rows="10" placeholder="Enter video's iframe" required></textarea>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" form="video-form">Save </button>
+        </div>
+      </div>
+    </div>
+  </div>
     
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
   <script>
+    let videoList = document.querySelector('.video-list');
+    let videoForm = document.querySelector('#video-form');
+    let btnClose = document.querySelector('.btn-close');
+
+    let getVideos = async ()=> {
+      try {
+        let res = await fetch(`/videos/api`, {method: 'GET'} )
+        
+        let videos = await res.json()     
+        
+        let content = '';
+        
+        videos.forEach(video => {
+          content = content + `
+            <div class="mb-3 video-box p-2">
+              ${video.content}
+              <div class="d-flex justify-content-between align-items-center">
+                <h6 style="max-width: 250px;">${video.title}</h6>
+                <button onclick="deleteVideo('${video._id}')" class="btn btn-outline-danger"><i class="text-dark fa-solid fa-trash text-danger"></i></button>
+              </div>
+            </div> 
+          `
+        });
+        
+        videoList.innerHTML = content
+      } catch (error) {
+        console.log(error.message);        
+      }
+    }
+
+    getVideos()
+
+    let deleteVideo = async(id) => {
+      let confirmDel = confirm("Deleted data cannot be recovered!")
+      if(confirmDel) {
+        try {
+          let res = await fetch(`/videos/${id}`, {method: 'DELETE', headers: {'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
+          }} )
     
+          let json = await res.json()    
+          getVideos()
+        } catch (error) {
+          console.log(error.message);        
+        }
+      }
+    }
+
+    let addVideo = async (e) => {
+      e.preventDefault();
+                      
+      let data = new FormData(videoForm)
+      
+      try {
+        let res = await fetch(`/videos`, {method: 'POST', body: data} )
+        
+        let json = await res.json()  
+        
+        alert(json.message);
+
+        videoForm.reset()
+        btnClose.click()
+        getVideos()
+      } catch (error) {
+        console.log(error.message);        
+      }
+    }
+
+    videoForm.addEventListener('submit', addVideo)
 
   </script>
 </body>
