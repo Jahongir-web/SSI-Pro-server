@@ -17,21 +17,12 @@
 </head>
 
 <body style="padding-top: 0; position:relative;">
-  <!-- Оборудование -->
-  <div
-    class="offcanvas offcanv:s-starrelative;"
-    tabindex="-1"
-    id="sidebarToggle"
-    aria-labelledby="sidebarToggleLabel"
-  >
+
+  <!-- Category -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="sidebarToggleLabel">Оборудование</h5>
-      <button
-        type="button"
-        class="btn-close text-reset"
-        data-bs-dismiss="offcanvas"
-        aria-label="Close"
-      ></button>
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Оборудование</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <ul class="list-unstyled list-group list-group-flush ps-0">
@@ -108,13 +99,11 @@
               
             </ul>
           </div>
-        </li>
-        
-        
+        </li>       
       </ul>
     </div>
-  </div>  
-
+  </div>
+  
   <div class="container pt-0">
     <div class="row">
       <div class="col-12 pt-0 d-flex align-items-start align-items-md-center">
@@ -155,9 +144,7 @@
           <button 
             class="btn btn-outline-dark canvas-btn"
             type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#sidebarToggle"
-            aria-controls="sidebarToggle"
+            data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"
           >
             Kатегории
           </button>
