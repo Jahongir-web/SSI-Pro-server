@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const homeCtrl = {
   
   homePage: async (req, res) => {
-    console.log(req.session.user_role);
     if(req.session.user_role === "001") {
       return res.render("index.html", {message: "ok!"})
     }

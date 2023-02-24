@@ -31,6 +31,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(fileUpload({useTempFiles: true}))
 app.use(session({secret: process.env.MY_SESSION_KEY}))
 app.use(express.static("static"))
+app.use(cors())
 
 // usage of routes
 app.use("/", authRoute)
