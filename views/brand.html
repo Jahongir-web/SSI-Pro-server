@@ -64,9 +64,17 @@
         <h6 class="text-white text-center count-brand">Все: ...</h6> 
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">+Add</button>
       </div>
-      <div class="brand-list d-flex flex-wrap justify-content-lg-between justify-content-center pt-3">
+
+      <h2 class="text-center my-3">Наши бренды</h2>
+      <div class="brand-list d-flex flex-wrap gap-3 justify-content-center pt-3">
         <img class="d-block mx-auto" src="./assets/Loading.gif" alt="loader">               
-                        
+                   
+      </div>
+      <hr class="my-4">
+      <h2 class="text-center my-3">Партнёры</h2>
+      <div class="partner-list d-flex flex-wrap gap-3 justify-content-center pt-3">
+        <img class="d-block mx-auto" src="./assets/Loading.gif" alt="loader">   
+
       </div>
     </div>
   </main>
@@ -82,7 +90,20 @@
         </div>
         <div class="modal-body">
           <form class="form-control" method="post" id="brand-form">
-            <input class="form-control my-3" type="text" name="title" placeholder="Enter title" required>
+            <div class="d-flex justify-content-around mb-3 mt-1">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="type" value="brand" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  бренд
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="type" value="partner" id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Партнёр
+                </label>
+              </div>
+            </div>
             <input type="file" class="form-control" name="image" required placeholder="Select Image">
           </form>
         </div>
@@ -98,6 +119,7 @@
 
   <script>
     let brandList = document.querySelector('.brand-list');
+    let partnerList = document.querySelector('.partner-list');
     let brandForm = document.querySelector('#brand-form');
     let btnClose = document.querySelector('.btn-close');
     let countBrand = document.querySelector('.count-brand');
@@ -111,15 +133,30 @@
         
         countBrand.textContent = `Все: ${brands.length}`
         
-        let content = '';
+        let brandContent = '';
+        let partnerContent = '';
         
-        // brands.forEach(brand => {
-        //   content = content + `
-            
-        //   `
-        // });
+        brands.forEach(brand => {
+          if(brand.type == "brand") {
+            brandContent = brandContent + `
+              <div class="brand-item">
+                <img width="200" class="m-3" src="${brand.image.url}" alt="brand_image">
+                <button onclick="deleteBrand('${brand._id}')" class="btn btn-outline-danger brand-del-btn"><i class="text-dark fa-solid fa-trash text-danger"></i></button>
+              </div>
+            `            
+          } 
+          if(brand.type == 'partner') {
+            partnerContent = partnerContent + `
+              <div class="brand-item">
+                <img width="200" class="m-3" src="${brand.image.url}" alt="brand_image">
+                <button onclick="deleteBrand('${brand._id}')" class="btn btn-outline-danger brand-del-btn"><i class="text-dark fa-solid fa-trash text-danger"></i></button>
+              </div>
+            `
+          }
+        });
         
-        brandList.innerHTML = content
+        brandList.innerHTML = brandContent
+        partnerList.innerHTML = partnerContent
       } catch (error) {
         console.log(error.message);        
       }

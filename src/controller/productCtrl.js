@@ -177,8 +177,10 @@ const productCtrl = {
     if(req.session.user_role === "001") {
       try {
         const {productId} = req.params
-        const newDesc = req.body.desc.reverse()[0];
-        req.body.desc = newDesc
+        if(typeof req.body.desc == 'object') {
+          const newDesc = req.body.desc.reverse()[0];
+          req.body.desc = newDesc
+        }
         const img = req.files
         if(img !== null){
           const file = req.files.image
