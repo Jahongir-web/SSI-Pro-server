@@ -40,15 +40,15 @@
                   <li class="nav-item">
                     <a class="nav-link title-comp fw-bold" aria-current="page" href="/product"><i class="fa-sharp fa-solid fa-cart-arrow-down"></i> Product</a>
                   </li>
-                  <li class="nav-item active-item">
+                  <li class="nav-item">
                     <a class="nav-link title-comp fw-bold" aria-current="page" href="/videos"><i class="fa-brands fa-youtube"></i> Video</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item active-item">
                     <a class="nav-link title-comp fw-bold" aria-current="page" href="/brand"><i class="fa-brands fa-vimeo"></i> Brand</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link title-comp fw-bold" aria-current="page" href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Exit</a>
-                  </li>                              
+                  </li>                                                  
                 </ul>
               </div>
             </div>
@@ -61,10 +61,10 @@
   <main>
     <div class="container">
       <div class="rounded-3 bg-info d-flex gap-3 py-1 px-3 justify-content-between gap-2 gap-md-3 align-items-center">
-        <h6 class="text-white text-center count-video">Все: ...</h6> 
+        <h6 class="text-white text-center count-brand">Все: ...</h6> 
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">+Add</button>
       </div>
-      <div class="video-list d-flex flex-wrap justify-content-lg-between justify-content-center pt-3">
+      <div class="brand-list d-flex flex-wrap justify-content-lg-between justify-content-center pt-3">
         <img class="d-block mx-auto" src="./assets/Loading.gif" alt="loader">               
                         
       </div>
@@ -77,18 +77,18 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Video</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add New Brand</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form-control" method="post" action="/videos" id="video-form">
-            <input class="form-control my-3" type="text" name="title" placeholder="Enter video's title" required>
-            <textarea class="form-control mb-3" name="content" id="" cols="30" rows="10" placeholder="Enter video's iframe" required></textarea>
+          <form class="form-control" method="post" id="brand-form">
+            <input class="form-control my-3" type="text" name="title" placeholder="Enter title" required>
+            <input type="file" class="form-control" name="image" required placeholder="Select Image">
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" form="video-form">Save </button>
+          <button type="submit" class="btn btn-primary" form="brand-form">Save </button>
         </div>
       </div>
     </div>
@@ -97,77 +97,72 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
   <script>
-    let videoList = document.querySelector('.video-list');
-    let videoForm = document.querySelector('#video-form');
+    let brandList = document.querySelector('.brand-list');
+    let brandForm = document.querySelector('#brand-form');
     let btnClose = document.querySelector('.btn-close');
-    let countVideo = document.querySelector('.count-video');
+    let countBrand = document.querySelector('.count-brand');
 
-    let getVideos = async ()=> {
+    let getBrands = async ()=> {
       try {
-        let res = await fetch(`/videos/api`, {method: 'GET'} )
+        let res = await fetch(`/brand/api`, {method: 'GET'} )
         
-        let videos = await res.json()  
+        let brands = await res.json()  
+        console.log(brands);  
         
-        countVideo.textContent = `Все: ${videos.length}`
+        countBrand.textContent = `Все: ${brands.length}`
         
         let content = '';
         
-        videos.forEach(video => {
-          content = content + `
-            <div class="mb-3 video-box p-2">
-              ${video.content}
-              <div class="d-flex justify-content-between align-items-center">
-                <h6 style="max-width: 250px;">${video.title}</h6>
-                <button onclick="deleteVideo('${video._id}')" class="btn btn-outline-danger"><i class="text-dark fa-solid fa-trash text-danger"></i></button>
-              </div>
-            </div> 
-          `
-        });
+        // brands.forEach(brand => {
+        //   content = content + `
+            
+        //   `
+        // });
         
-        videoList.innerHTML = content
+        brandList.innerHTML = content
       } catch (error) {
         console.log(error.message);        
       }
     }
 
-    getVideos()
+    getBrands()
 
-    let deleteVideo = async(id) => {
+    let deleteBrand = async(id) => {
       let confirmDel = confirm("Deleted data cannot be recovered!")
       if(confirmDel) {
         try {
-          let res = await fetch(`/videos/${id}`, {method: 'DELETE', headers: {'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
+          let res = await fetch(`/brand/${id}`, {method: 'DELETE', headers: {'Content-Type': 'application/json' // 'Content-Type': 'application/x-www-form-urlencoded',
           }} )
     
           let json = await res.json()    
-          getVideos()
+          getBrands()
         } catch (error) {
           console.log(error.message);        
         }
       }
     }
 
-    let addVideo = async (e) => {
+    let addBrand = async (e) => {
       e.preventDefault();
                       
-      let data = new FormData(videoForm)
+      let data = new FormData(brandForm)
       
       try {
-        let res = await fetch(`/videos`, {method: 'POST', body: data} )
+        let res = await fetch(`/brand`, {method: 'POST', body: data} )
         
         let json = await res.json()  
         
         alert(json.message);
 
-        videoForm.reset()
+        brandForm.reset()
         btnClose.click()
-        getVideos()
+        getBrands()
       } catch (error) {
         console.log(error.message);        
       }
     }
 
-    videoForm.addEventListener('submit', addVideo)
+    brandForm.addEventListener('submit', addBrand)
 
   </script>
 </body>
