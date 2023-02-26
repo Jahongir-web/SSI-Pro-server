@@ -2,8 +2,6 @@ const cloudinary = require("cloudinary");
 const dotenv = require("dotenv");
 const fs = require('fs');
 
-const Category = require("../model/categoryModel");
-const SubCategory = require("../model/subCategoryModel");
 const Product = require("../model/productModel");
 
 dotenv.config();
@@ -20,25 +18,7 @@ const productCtrl = {
   getProducts: async (req, res) => {
     if(req.session.user_role === "001") {
       try {
-        const categories = await Category.aggregate([
-          { $lookup:
-            {
-              from: "subcategories",
-              localField: "_id",
-              foreignField: "categoryId",
-              as: "subCategories"
-            }
-          }
-        ])
-
-        let categoryLength = categories.length
-        let subcategoryLength = 0;
-        categories.forEach(cat=> {
-          subcategoryLength = subcategoryLength + cat.subCategories.length
-        })
-
-        res.render("product.html", {categories, categoryLength, subcategoryLength})
-  
+        res.render("product.html")  
       } catch (error) {
         res.status(500).send({message: error.message})
       }
