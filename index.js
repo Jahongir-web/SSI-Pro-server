@@ -49,7 +49,7 @@ app.get("/login", (req, res) => {
 
 setInterval(() => {
   console.log('1');
-}, 600000)
+}, 500000)
 
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
