@@ -47,10 +47,6 @@ app.get("/login", (req, res) => {
   res.render("login.html", {message: ""})
 })
 
-setInterval(() => {
-  console.log('1');
-}, 600000)
-
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
